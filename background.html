@@ -1,0 +1,33 @@
+<html>
+	<script src="jquery-1.5.2.min.js"></script>
+	<script src="md5.js"></script>
+	<script>
+		
+		function onRequest(request, sender, callback) {
+        if (request.action == 'scrobbleTrack') {
+			console.log('Beginning Scrobble');
+			if ($) {
+				console.log(lastfm.getToken());	
+			}
+			else{
+				console.log('jquery is not loaded');
+				return;
+			}
+        }
+      };
+		chrome.extension.onRequest.addListener(onRequest);
+		
+		var lastfm=new function()
+			{
+			var apiKey='8af2edeb9d29f06c28ddd2b62036a08b';
+			var restUrl='http://ws.audioscrobbler.com/2.0/';
+			
+			var requestToken;
+			
+			this.getToken=function(){
+				return apiKey;
+			}
+			
+		};
+	</script>
+</html>

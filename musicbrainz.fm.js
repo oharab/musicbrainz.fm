@@ -19,8 +19,15 @@ $(document).ready(function() {
  
  function scrobble(track, artist, mbid)
  {
- 	alert('Scrobbling: \n' + 
-			'artist: ' + artist + '\n' +
-			'track: ' + track + '\n' +
-			'mbid: ' + mbid );
+	chrome.extension.sendRequest({'action' : 'scrobbleTrack',
+								 	'artist':artist,
+									'track':track,
+									'mbid':mbid
+	},function(result){
+		
+		if(!result.success)
+			return;
+	});
  }
+ 
+ 

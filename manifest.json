@@ -2,11 +2,13 @@
   "name": "musicbrainz.fm",
   "version": "1.0",
   "description": "Adds scrobble facility to Chrome",
+  "permissions":["http://ws.audioscrobbler.com/2.0/"],
+  "background_page":"background.html",
  "content_scripts": [
     {
       "matches": ["http://musicbrainz.org/release/*"],
       "css":["musicbrainz.fm.css"],
-      "js": ["jquery-1.5.2.min.js", "musicbrainz.fm.js"]
+      "js": ["jquery-1.5.2.min.js","md5.js", "musicbrainz.fm.js"]
     }
   ]
 }
