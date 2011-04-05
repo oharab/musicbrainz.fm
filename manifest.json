@@ -1,11 +1,11 @@
 {
-  "name": "My First Extension",
+  "name": "musicbrainz.fm",
   "version": "1.0",
-  "description": "The first extension that I made.",
-  "browser_action": {
-    "default_icon": "icon.png",
-    "popup": "popup.html"
-  },
-  "permissions": [
-    "http://api.flickr.com/"  ]
+  "description": "Adds scrobble facility to Chrome",
+ "content_scripts": [
+    {
+      "matches": ["http://musicbrainz.org/release/*"],
+      "js": ["jquery-1.5.2.min.js", "musicbrainz.fm.js"]
+    }
+  ]
 }
