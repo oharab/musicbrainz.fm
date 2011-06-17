@@ -7,16 +7,17 @@
         if (request.action == 'scrobbleTrack') {
 			console.log('Beginning Scrobble');
 			if ($) {
-				console.log(lastfm.getToken());	
+				lastfm.scrobble(req.artist,request.track,request.mbid);	
 			}
 			else{
 				console.log('jquery is not loaded');
 				return;
 			}
         }
-      };
-		chrome.extension.onRequest.addListener(onRequest);
-		
+      }
+	  
+	chrome.extension.onRequest.addListener(onRequest);
+
 		var lastfm=new function()
 			{
 			var apiKey='8af2edeb9d29f06c28ddd2b62036a08b';
@@ -24,10 +25,20 @@
 			
 			var requestToken;
 			
-			this.getToken=function(){
-				return apiKey;
+			this.scrobble = function(artist, track, mbid){
+				if (requestToken = '') {
+					getRequestToken(this);
+				}
+				console.log('sending scrobble');
 			}
 			
+			var getRequestToken = function(callback){
+				console.log('getting token');
+			};
+			
+			var generateSignature=function(){
+				
+			};		
 		};
 	</script>
 </html>
