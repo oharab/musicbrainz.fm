@@ -1,44 +1,25 @@
-<html>
-	<script src="jquery-1.5.2.min.js"></script>
-	<script src="md5.js"></script>
-	<script>
+<!DOCTYPE html>
+	<html>
+	  <title></title>
+	  <head>
+	  </head>
+	<script type="text/javascript">
+		var apiKey='8af2edeb9d29f06c28ddd2b62036a08b';
+		var restUrl='http://ws.audioscrobbler.com/2.0/';
 		
 		function onRequest(request, sender, callback) {
-        if (request.action == 'scrobbleTrack') {
-			console.log('Beginning Scrobble');
-			if ($) {
-				lastfm.scrobble(req.artist,request.track,request.mbid);	
-			}
-			else{
-				console.log('jquery is not loaded');
-				return;
-			}
+			callback('completed');
         }
-      }
-	  
-	chrome.extension.onRequest.addListener(onRequest);
+		
+		 // Called when the url of a tab changes.
+      function checkForValidUrl(tabId, changeInfo, tab) {
+        if (tab.url.indexOf('musicbrainz.org') > -1) {
+          chrome.pageAction.show(tabId);
+        }
+      };
 
-		var lastfm=new function()
-			{
-			var apiKey='8af2edeb9d29f06c28ddd2b62036a08b';
-			var restUrl='http://ws.audioscrobbler.com/2.0/';
-			
-			var requestToken;
-			
-			this.scrobble = function(artist, track, mbid){
-				if (requestToken = '') {
-					getRequestToken(this);
-				}
-				console.log('sending scrobble');
-			}
-			
-			var getRequestToken = function(callback){
-				console.log('getting token');
-			};
-			
-			var generateSignature=function(){
-				
-			};		
-		};
+      // Listen for any changes to the URL of any tab.
+      chrome.tabs.onUpdated.addListener(checkForValidUrl);
+		chrome.extension.onRequest.addListener(onRequest);
 	</script>
 </html>

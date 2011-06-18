@@ -2,8 +2,13 @@
   "name": "musicbrainz.fm",
   "version": "1.0",
   "description": "Adds scrobble facility to Chrome",
-  "permissions":["http://ws.audioscrobbler.com/2.0/"],
+  "permissions":["http://ws.audioscrobbler.com/2.0/*","tabs"],
   "background_page":"background.html",
+  "page_action" :
+  {
+    "default_icon" : "audioscrobbler.png",
+    "default_title" : "Change audioscrobbler preferences."
+  },
  "content_scripts": [
     {
       "matches": ["http://musicbrainz.org/release/*"],
