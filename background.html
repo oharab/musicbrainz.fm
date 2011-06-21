@@ -1,25 +1,51 @@
 <!DOCTYPE html>
 	<html>
-	  <title></title>
-	  <head>
-	  </head>
+	<title></title>
+	<head>
+	</head>
+	<script type="text/javascript" src="jquery-1.5.2.min.js"></script>
 	<script type="text/javascript">
-		var apiKey='8af2edeb9d29f06c28ddd2b62036a08b';
+		var api_key='8af2edeb9d29f06c28ddd2b62036a08b';
 		var restUrl='http://ws.audioscrobbler.com/2.0/';
-		
-		function onRequest(request, sender, callback) {
-			callback('completed');
-        }
-		
-		 // Called when the url of a tab changes.
-      function checkForValidUrl(tabId, changeInfo, tab) {
-        if (tab.url.indexOf('musicbrainz.org') > -1) {
-          chrome.pageAction.show(tabId);
-        }
-      };
+		var sessionKey='';
+		var authToken='';
 
-      // Listen for any changes to the URL of any tab.
-      chrome.tabs.onUpdated.addListener(checkForValidUrl);
+		function onRequest(request, sender, onSuccessCallback) {
+			if (authToken == '') {
+				getToken(onSuccessCallback);
+			}
+			else {
+				onSuccessCallback('session key=' + sessionKey);
+			}
+		}
+
+		function getUserAuthorization(sessionKey, callBack){
+		}
+				
+		function getToken(callback){
+			var xhr = new XMLHttpRequest();
+			xhr.open("GET", restUrl + '?method=auth.gettoken&api_key=' + api_key, true);
+			xhr.onreadystatechange = function() {
+			  if (xhr.readyState == 4) {
+			    callback($(xhr.responseXML).find('token').text());
+			  }
+			}
+			xhr.send();
+		}
+
+		chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
+			if (tab.url.indexOf('musicbrainz.org') > -1) {
+			  chrome.pageAction.show(tabId);
+			}
+		});
 		chrome.extension.onRequest.addListener(onRequest);
+
+		chrome.pageAction.onClicked.addListener(function(tab){
+			getToken(function(token){
+				chrome.tabs.create({
+					'url': 'http://www.last.fm/api/auth/?api_key=' + api_key + '&token=' + token
+				});
+			});
+		});
 	</script>
 </html>
